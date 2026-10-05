@@ -1,0 +1,237 @@
+{
+  "entities": {
+    "Product": {
+      "title": "Product",
+      "description": "Inventory product item with pricing, SKU, barcode, stock levels, and categories",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "code": { "type": "string", "description": "SKU code" },
+        "barcodeValue": { "type": "string" },
+        "categoryId": { "type": "string" },
+        "categoryName": { "type": "string" },
+        "brand": { "type": "string" },
+        "description": { "type": "string" },
+        "unitCost": { "type": "number", "description": "Purchase cost price" },
+        "sellingPrice": { "type": "number", "description": "Retail piece selling price" },
+        "cartonPrice": { "type": "number" },
+        "quantityPerCarton": { "type": "number" },
+        "currentStock": { "type": "number" },
+        "minCartonAlert": { "type": "number" },
+        "maxStock": { "type": "number" },
+        "unit": { "type": "string" },
+        "photoUrl": { "type": "string" },
+        "photoUrls": { "type": "array" },
+        "supplierId": { "type": "string" },
+        "supplierName": { "type": "string" },
+        "status": { "type": "string", "enum": ["active", "inactive", "discontinued"] },
+        "voucherId": { "type": "string" },
+        "isVoided": { "type": "boolean" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["name", "code", "categoryId"]
+    },
+    "Category": {
+      "title": "Category",
+      "description": "Product classification category",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["name"]
+    },
+    "Store": {
+      "title": "Store",
+      "description": "Store location or warehouse facility",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "level": { "type": "string" },
+        "address": { "type": "string" },
+        "voucherId": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["name", "level"]
+    },
+    "Supplier": {
+      "title": "Supplier",
+      "description": "Vendor or merchandise supplier",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "address": { "type": "string" },
+        "phone": { "type": "string" },
+        "email": { "type": "string" },
+        "totalPaid": { "type": "number" },
+        "totalBalance": { "type": "number" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["name"]
+    },
+    "Customer": {
+      "title": "Customer",
+      "description": "Retail customer or wholesale client",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "address": { "type": "string" },
+        "phone": { "type": "string" },
+        "email": { "type": "string" },
+        "totalPaid": { "type": "number" },
+        "totalBalance": { "type": "number" },
+        "voucherId": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["name"]
+    },
+    "StockIn": {
+      "title": "StockIn",
+      "description": "Purchased stock receiving voucher",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "voucherId": { "type": "string" },
+        "supplierId": { "type": "string" },
+        "supplierName": { "type": "string" },
+        "storeId": { "type": "string" },
+        "storeName": { "type": "string" },
+        "items": { "type": "array" },
+        "totalCartons": { "type": "number" },
+        "totalPrice": { "type": "number" },
+        "amountPaid": { "type": "number" },
+        "remainingBalance": { "type": "number" },
+        "status": { "type": "string" },
+        "createdByName": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["voucherId", "supplierId", "storeId", "totalPrice"]
+    },
+    "PosSale": {
+      "title": "PosSale",
+      "description": "Point-of-sale completed transaction",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "voucherId": { "type": "string" },
+        "customerId": { "type": "string" },
+        "customerName": { "type": "string" },
+        "storeId": { "type": "string" },
+        "storeName": { "type": "string" },
+        "items": { "type": "array" },
+        "subtotal": { "type": "number" },
+        "totalAmount": { "type": "number" },
+        "paymentMethod": { "type": "string" },
+        "status": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["voucherId", "storeId", "totalAmount"]
+    },
+    "InventoryMovement": {
+      "title": "InventoryMovement",
+      "description": "Audit trail log of all stock changes",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "type": { "type": "string", "enum": ["stock_in", "stock_out", "sale", "adjustment", "transfer_in", "transfer_out", "damage", "return"] },
+        "productId": { "type": "string" },
+        "productName": { "type": "string" },
+        "productCode": { "type": "string" },
+        "storeId": { "type": "string" },
+        "storeName": { "type": "string" },
+        "prevQuantity": { "type": "number" },
+        "newQuantity": { "type": "number" },
+        "difference": { "type": "number" },
+        "reason": { "type": "string" },
+        "referenceVoucherId": { "type": "string" },
+        "userId": { "type": "string" },
+        "userName": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["type", "productId", "difference"]
+    },
+    "EcommerceOrder": {
+      "title": "EcommerceOrder",
+      "description": "Online storefront customer order",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "orderVoucherId": { "type": "string" },
+        "customerName": { "type": "string" },
+        "customerPhone": { "type": "string" },
+        "customerAddress": { "type": "string" },
+        "items": { "type": "array" },
+        "totalAmount": { "type": "number" },
+        "status": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["orderVoucherId", "customerName", "totalAmount"]
+    },
+    "AppSettings": {
+      "title": "AppSettings",
+      "description": "Global enterprise configuration and branding",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "companyName": { "type": "string" },
+        "currency": { "type": "string" },
+        "currencySymbol": { "type": "string" },
+        "ecommerceName": { "type": "string" },
+        "createdAt": { "type": "string" }
+      }
+    }
+  },
+  "firestore": {
+    "/products/{productId}": {
+      "schema": "Product",
+      "description": "All inventory merchandise items"
+    },
+    "/categories/{categoryId}": {
+      "schema": "Category",
+      "description": "Product classification hierarchy"
+    },
+    "/stores/{storeId}": {
+      "schema": "Store",
+      "description": "Stores and physical stock locations"
+    },
+    "/suppliers/{supplierId}": {
+      "schema": "Supplier",
+      "description": "Vendor directory and balance tracking"
+    },
+    "/customers/{customerId}": {
+      "schema": "Customer",
+      "description": "Customer contacts and ledger"
+    },
+    "/stock_in/{stockInId}": {
+      "schema": "StockIn",
+      "description": "Purchased stock entry records"
+    },
+    "/pos_sales/{saleId}": {
+      "schema": "PosSale",
+      "description": "POS checkout records"
+    },
+    "/inventory_movements/{movementId}": {
+      "schema": "InventoryMovement",
+      "description": "Full audit log of inventory changes"
+    },
+    "/order_vouchers/{orderId}": {
+      "schema": "EcommerceOrder",
+      "description": "Online customer store orders"
+    },
+    "/app_settings/{settingsId}": {
+      "schema": "AppSettings",
+      "description": "System settings and branding"
+    }
+  }
+}

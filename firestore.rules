@@ -1,0 +1,154 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Auth helper
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isAdmin() {
+      return isAuthenticated() && (
+        request.auth.token.email == 'admin@nexusstock.com' ||
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin'
+      );
+    }
+
+    // ── Public Storefront Catalog (Ecommerce & Lookup) ──
+    match /products/{productId} {
+      allow read: if true;
+      allow write: if isAuthenticated();
+    }
+
+    match /categories/{categoryId} {
+      allow read: if true;
+      allow write: if isAuthenticated();
+    }
+
+    match /stores/{storeId} {
+      allow read: if true;
+      allow write: if isAuthenticated();
+    }
+
+    match /promotions/{promotionId} {
+      allow read: if true;
+      allow write: if isAuthenticated();
+    }
+
+    match /app_settings/{settingId} {
+      allow read: if true;
+      allow write: if isAuthenticated();
+    }
+
+    // eCommerce Orders: Public can submit new order, staff can manage
+    match /order_vouchers/{orderId} {
+      allow read: if true;
+      allow create: if true;
+      allow update, delete: if isAuthenticated();
+    }
+
+    // ── Operational & Inventory Collections (Authenticated Staff & Admin) ──
+    match /stock_in/{stockInId} {
+      allow read, write: if isAuthenticated();
+    }
+
+    match /pos_sales/{saleId} {
+      allow read, write: if isAuthenticated();
+    }
+
+    match /direct_sales/{saleId} {
+      allow read, write: if isAuthenticated();
+    }
+
+    match /inventory_movements/{movementId} {
+      allow read, write: if isAuthenticated();
+    }
+
+    match /transfers/{transferId} {
+      allow read, write: if isAuthenticated();
+    }
+
+    match /damage_returns/{damageId} {
+      allow read, write: if isAuthenticated();
+    }
+
+    match /expenses/{expenseId} {
+      allow read, write: if isAuthenticated();
+    }
+
+    match /pricing/{pricingId} {
+      allow read, write: if true;
+      allow write: if isAuthenticated();
+    }
+
+    match /store_balance/{balanceId} {
+      allow read, write: if isAuthenticated();
+    }
+
+    match /bincard/{bincardId} {
+      allow read, write: if isAuthenticated();
+    }
+
+    match /customers/{customerId} {
+      allow read, write: if isAuthenticated();
+    }
+
+    match /suppliers/{supplierId} {
+      allow read, write: if isAuthenticated();
+    }
+
+    match /supplier_payments/{paymentId} {
+      allow read, write: if isAuthenticated();
+    }
+
+    match /customer_payments/{paymentId} {
+      allow read, write: if isAuthenticated();
+    }
+
+    match /accounts/{accountId} {
+      allow read, write: if isAuthenticated();
+    }
+
+    match /account_vouchers/{voucherId} {
+      allow read, write: if isAuthenticated();
+    }
+
+    match /binning/{binningId} {
+      allow read, write: if isAuthenticated();
+    }
+
+    match /store_requests/{requestId} {
+      allow read, write: if isAuthenticated();
+    }
+
+    match /counters/{counterId} {
+      allow read, write: if isAuthenticated();
+    }
+
+    match /users/{userId} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated();
+    }
+
+    match /backups/{backupId} {
+      allow read, write: if isAuthenticated();
+    }
+
+    match /chart_of_accounts/{accountId} {
+      allow read, write: if isAuthenticated();
+    }
+
+    match /journal_entries/{entryId} {
+      allow read, write: if isAuthenticated();
+    }
+
+    match /systems/{systemId} {
+      allow read, write: if isAuthenticated();
+    }
+
+    // Default deny for unmapped paths
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

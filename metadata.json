@@ -1,0 +1,10 @@
+{
+  "name": "yeserahut - eCommerce + Inventory System",
+  "description": "Multi-device synchronized eCommerce and Inventory Management System powered by Firebase Firestore cloud database, real-time stock sync, POS, and Cloudinary.",
+  "requestFramePermissions": [
+    "camera"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "strict": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noFallthroughCasesInSwitch": false,
+    "types": ["vite/client", "node"],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"],
+      "@/components/ui/*": ["./ui/*"],
+      "@/components/HabeshaDatePicker": ["./components/HabeshaDatePicker.tsx"],
+      "@/components/*": ["./components/*", "./*"],
+      "@/lib/ethiopianCalendar": ["./ethiopianCalendar.ts"],
+      "@/lib/utils": ["./utils.ts"],
+      "@/lib/*": ["./lib/*", "./*"],
+      "@/hooks/*": ["./*"],
+      "#components/*": ["./*"],
+      "#components/ui/*": ["./ui/*"],
+      "#lib/utils": ["./utils.ts"],
+      "#lib/*": ["./*"],
+      "#hooks/*": ["./*"],
+      "../../lib/utils": ["./utils.ts"],
+      "../lib/utils": ["./utils.ts"],
+      "react-barcode": ["./Barcode.tsx"]
+    }
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "api-spec",
+    "generated",
+    "src/index.ts",
+    "drizzle.config.ts"
+  ]
+}

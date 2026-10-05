@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <script>
+      (function() {
+        try {
+          var origFetch = window.fetch;
+          var fetchHandler = function() {
+            var target = (typeof origFetch === 'function') ? origFetch : window.fetch;
+            return target.apply(window, arguments);
+          };
+          var descriptor = {
+            get: function() {
+              return fetchHandler;
+            },
+            set: function(val) {
+              fetchHandler = val;
+            },
+            configurable: true,
+            enumerable: true
+          };
+          try {
+            Object.defineProperty(window, 'fetch', descriptor);
+          } catch (e1) {
+            var proto = Object.getPrototypeOf(window);
+            if (proto) {
+              Object.defineProperty(proto, 'fetch', descriptor);
+            }
+          }
+        } catch (err) {
+          console.warn('Fetch descriptor initialization handled:', err);
+        }
+      })();
+    </script>
+    <title>yeserahut - eCommerce + Inventory System</title>
+    <meta name="description" content="Multi-device synchronized eCommerce and Inventory Management System powered by Firebase Firestore cloud database, real-time stock sync, POS, and Cloudinary." />
+    <meta property="og:title" content="yeserahut - eCommerce + Inventory System" />
+    <meta property="og:description" content="Multi-device synchronized eCommerce and Inventory Management System powered by Firebase Firestore cloud database, real-time stock sync, POS, and Cloudinary." />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" crossorigin="anonymous">
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/main.tsx"></script>
+  </body>
+</html>
